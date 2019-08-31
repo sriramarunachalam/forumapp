@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LambdaForums.Services;
+using LambdaForums.Data;
+using LambdaForums.Data.Models;
 
 namespace LambdaForums
 {
