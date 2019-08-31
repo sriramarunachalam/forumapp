@@ -1,5 +1,4 @@
 ﻿using LambdaForums.Data.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,6 +14,7 @@ namespace LambdaForums.Data
         Task Delete(int forumId);
         Task UpdateForumTitle(int forumId, string newTitle);
         Task UpdateForumDescription(int forumId, string newDescription);
+
 
     }
 }
