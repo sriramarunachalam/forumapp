@@ -1,5 +1,6 @@
 ﻿using LambdaForums.Data;
 using LambdaForums.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,11 @@ namespace LambdaForums.Service
             _context = context;
         }
 
-        public Task Add(IPost post)
+        public async Task Add(Post post)
         {
-            throw new NotImplementedException();
+            _context.Add(post);
+            await _context.SaveChangesAsync();
+            
         }
 
         public Task Delete(int id)
@@ -34,17 +37,31 @@ namespace LambdaForums.Service
 
         public IEnumerable<Post> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Posts
+                .Include(post => post.User)
+                .Include(post => post.Replies)
+                    .ThenInclude(reply => reply.User)
+                .Include(post => post.Forum);
         }
 
         public Post GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Posts.Where(post => post.Id == id)
+                .Include(post => post.User)
+                .Include(post => post.Replies)
+                    .ThenInclude(reply=>reply.User)
+                .Include(post => post.Forum)
+                .First();
         }
 
         public IEnumerable<Post> GetFilteredPosts(string searchQuery)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Post> GetLatestPosts(int n)
+        {
+            return GetAll().OrderByDescending(post => post.Created).Take(n);
         }
 
         public IEnumerable<Post> GetPostsByForum(int id)
